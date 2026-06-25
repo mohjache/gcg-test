@@ -1,29 +1,92 @@
-# Create T3 App
+# GCGHealth Test -Martin's Movies
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A paginated, searchable movie listing built on Next.js (App Router) against The
+Movie Database (TMDB) API, with per-browser "watched" tracking and a Read More
+link that resolves to IMDB.
 
-## What's next? How do I make an app with this?
+- **Live app:** [HERE](https://gcg-test.vercel.app/)
+- **Design reference:** [Movify movie-grid](https://gnodesign.com/templates/movify/movie-grid3.html) (light, purple-blue) + a central search input
+- **Decisions & assumptions:** see [`NOTES.md`](./NOTES.md), the domain glossary in [`CONTEXT.md`](./CONTEXT.md), and ADRs in [`docs/adr/`](./docs/adr/)
+- Theres some linting errors from ShadCN given the nature of the test I've left them for now but I usually would ensure we setup commit hooks with linting and typechecking if we are using Agents heaviliy in a codebase
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Stack
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Next.js (App Router only)** — server-rendered listing, URL-driven state
+- **[@t3-oss/env-nextjs](https://env.t3.gg/)** — env vars validated with Zod at build, so a missing `TMDB_API_KEY` fails the build, not production
+- **Tailwind CSS v4 + shadcn/ui** — component layer
+- **Zod** — validates every TMDB response at the boundary
+- **Vitest + MSW** — tests against mocked external boundaries
+- **Biome** — lint/format
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## How this was built
 
-## Learn More
+This project was built with **Claude Code** driving a deliberately structured
+workflow rather than ad-hoc prompting. The journey, in order:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+1. **Scaffold** with `create-t3-app` — App Router only, plus `@t3-oss/env-nextjs`
+   to guarantee env values at build time.
+2. **Push to GitHub** and **set up Vercel** for deployment.
+3. **Add shadcn/ui** components, fix integration issues, and deploy.
+4. **Install [Matt Pocock's skills](https://github.com/mattpocock/skills)** to have
+   structured discussions with Claude about the implementation.
+5. **`/setup-matt-pocock-skills`** to configure issue tracking — local markdown
+   docs were chosen for this use case (see [`docs/agents/`](./docs/agents/)).
+6. **`/grill-with-docs`** — a back-and-forth with Claude that interrogates the
+   spec one decision at a time before any code is written. Hard-to-reverse
+   decisions were captured as **ADRs**.
+7. **`/to-prd`** — produces a PRD artifact for the work (treated as ephemeral; see
+   [`.scratch/martins-movies/PRD.md`](./.scratch/martins-movies/PRD.md)).
+8. **`/tdd`** — consumes the PRD and builds the functionality as tracer bullets,
+   each backed by a test (one failing test → minimal code → repeat).
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+The point of the workflow: resolve ambiguity and record decisions *before*
+implementing, then build test-first so the core logic is verified as it lands.
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Local development
 
-## How do I deploy this?
+```bash
+pnpm install
+# add your TMDB v3 API key:
+echo "TMDB_API_KEY=<your-key>" >> .env
+pnpm dev        # http://localhost:3000
+pnpm test       # Vitest suite
+pnpm build      # production build
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Project layout
+
+```
+src/
+  app/page.tsx              Listing (Server Component): reads ?q & ?page
+  app/r/[id]/route.ts       Read More → lazy IMDB/TMDB redirect
+  server/tmdb/              Deep module: the only code that knows TMDB exists
+  server/watched.ts         Per-browser watched state (cookie)
+  components/movies/        Grid, card, search bar, pagination, skeleton
+```
+
+> This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+
+raw notes:
+
+```
+create t3 app only app router and t3-env to guarantee env values
+push to GitHub
+setup vercel deploy
+setup shadcn components and add all fix any issues and deploy 
+setup mattpocock skills so I can have discussions with claude on implementation
+https://github.com/mattpocock/skills
+used /setup-skills to configure issue tracking (using local docs for this usecase)
+use /grill-with-docs to enter a back and forth conversation with claude on implementation based on the spec.
+this might produce ADR for hard to revert changes or decisions 
+/to-prd to produce artifact for work which is considered ephemeral
+ran /tdd which took in the prd and and then created tracer-bullets of functionality that are backed by tests for implementation
+
+thoughts?
+are we legally allowed to store/query imdb data? Commercial licensing?
+rate limits seemed to be remove but can we add some kind of caching layer? whats to stop them from adding it back and we don't know?
+api doesn't seem to be able to mark movies on your watchlist as watched?
+using v3
+imdb id doesn't seem to exist on list view therefore we defer to when details are asked for
+assumption on push to main is good enough for now
+```

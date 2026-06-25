@@ -133,6 +133,38 @@ for this scope.
 - **Genre map caching** could move to a single module-level memo; right now it's a
   per-request cached fetch.
 
+## 6. Open questions, risks & legal
+
+Things worth flagging before this goes anywhere near production or commercial use:
+
+- **IMDB data & licensing.** We do **not** store or query IMDB's data — we only
+  deep-link to public IMDB title pages using the `imdb_id` that TMDB returns. The
+  actual data source is TMDB. Scraping or storing IMDb's own dataset would require
+  a commercial licence (IMDb / IMDbPro), which we deliberately avoid.
+- **TMDB attribution.** TMDB's API is free to use but requires attribution — "This
+  product uses the TMDB API but is not endorsed or certified by TMDB" plus the
+  TMDB logo. That notice is in the README and should be surfaced in the UI footer
+  before any public/commercial launch; higher-volume commercial use may warrant
+  contacting TMDB.
+- **Rate limits & caching.** TMDB has relaxed its old hard rate limit, but that
+  isn't guaranteed and could be reinstated without much warning. We already lean
+  on Next's Data Cache (`revalidate` on every TMDB fetch), so repeat views don't
+  re-hit the API and the near-static genre list is effectively cached. Because the
+  `server/tmdb` module is the single chokepoint, hardening is easy if limits
+  return: longer/tagged revalidation, stale-while-revalidate, or an edge / Upstash
+  cache in front of it.
+- **"Watched" is not a TMDB concept.** TMDB models *watchlist*, *favourite*, and
+  *rating* — all of which require account authentication — but has no "watched"
+  flag. So Watched is genuinely app-owned state, which is exactly why it lives in
+  our own cookie (ADR-0002) rather than syncing to a TMDB account.
+- **`imdb_id` absent from list responses.** Resolved lazily at Read More click
+  time rather than enriching every card (ADR-0003).
+- **API auth.** TMDB API **v3** key, passed as a query-string param, server-side
+  only.
+- **Deploy gating.** Auto-deploy on push to `main` with no PR/preview protection
+  is assumed good enough for this exercise; a production setup would gate on a PR
+  plus passing checks.
+
 ---
 
 ### Running locally
