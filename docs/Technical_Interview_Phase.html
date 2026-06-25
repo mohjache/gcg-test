@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Interview Phase – GCG Health Safety &amp; Hygiene</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: #222;
+      background: #f4f5f7;
+    }
+
+    /* ── Page wrapper ── */
+    .page {
+      max-width: 820px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.10);
+      overflow: hidden;
+    }
+
+    /* ── Header bar ── */
+    header {
+      background: #1a2b4a;
+      color: #fff;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .header-meta {
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: .75;
+    }
+
+    .logo-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: #e8f0fe;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+      color: #1a2b4a;
+    }
+
+    .logo-text {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      opacity: .8;
+    }
+
+    /* ── Body content ── */
+    .content {
+      padding: 44px 56px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a2b4a;
+      margin-bottom: 24px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a2b4a;
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: #333;
+    }
+
+    ul {
+      margin: 10px 0 16px 22px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    ol {
+      margin: 10px 0 16px 22px;
+    }
+
+    ol li {
+      margin-bottom: 8px;
+      color: #333;
+    }
+
+    ol ol {
+      list-style-type: lower-alpha;
+      margin-top: 8px;
+    }
+
+    a {
+      color: #2563eb;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+
+    a:hover { color: #1d4ed8; }
+
+    /* ── Callout box ── */
+    .callout {
+      background: #f0f4ff;
+      border-left: 4px solid #2563eb;
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin: 20px 0;
+      font-size: 14px;
+      color: #1e3a8a;
+    }
+
+    /* ── Footer bar ── */
+    footer {
+      background: #1a2b4a;
+      color: #c5cfe8;
+      font-size: 11px;
+      padding: 18px 48px;
+    }
+
+    .footer-offices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 10px;
+    }
+
+    .office h4 {
+      color: #fff;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 4px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #2e4068;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    @media (max-width: 600px) {
+      .content { padding: 28px 20px; }
+      header, footer { padding-left: 20px; padding-right: 20px; }
+      header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <div class="header-meta">
+      GREEN CONSULTING GROUP PTY LTD<br>
+      T/A GCG HEALTH SAFETY &amp; HYGIENE<br>
+      ABN 26 114 988 751
+    </div>
+    <div class="logo-badge">
+      <div class="logo-icon">GCG</div>
+      <div>
+        <div class="logo-text">GCG</div>
+        <div class="logo-sub">Health Safety &amp; Hygiene</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="content">
+
+    <h1>Technical Interview Phase</h1>
+
+    <p>Thank you for joining us in the next stage of our interview process.</p>
+
+    <p>This project is designed to give you the opportunity to demonstrate how you approach and interpret a brief, make architecture decisions, and deliver working software. There are no trick questions — we're simply interested in how you think and work.</p>
+
+    <div class="callout">
+      You are encouraged to use AI coding tools such as Cursor or similar as this reflects how we work day-to-day. What we're most interested in is <strong>how you direct and apply those tools</strong>, not whether you use them.
+    </div>
+
+    <p>Please read the brief carefully. Some details are intentionally left open. How you handle ambiguity is part of what we're looking for.</p>
+
+    <!-- Project Brief -->
+    <h2>Project Brief</h2>
+
+    <p>Martin's Movies is a client who reviews movies online. They have moved all of their movies to an online movie database which is only accessible via an API.</p>
+
+    <p>They need to:</p>
+    <ul>
+      <li>Build a new <strong>paginated listing page</strong> to pull all data from their new database</li>
+      <li>Allow customers to <strong>search</strong> by different movie attributes such as Keyword</li>
+      <li><strong>Mark a movie as 'watched'</strong> so when they open the listing page again in the same browser it will still be marked as 'watched'</li>
+    </ul>
+
+    <p>Martin's Movies would like to link the <strong>Read More</strong> button for each movie off to the IMDB page if the <code>imdb_id</code> is set for a movie.</p>
+
+    <p>He would like the design to match a theme he liked, but include a central search input:</p>
+    <p><a href="https://gnodesign.com/templates/movify/movie-grid3.html" target="_blank" rel="noopener">https://gnodesign.com/templates/movify/movie-grid3.html</a></p>
+
+    <!-- Movie API -->
+    <h2>Movie API</h2>
+
+    <p>For this project, we are using The Movie Database API:</p>
+    <p><a href="https://developers.themoviedb.org/3/getting-started/introduction" target="_blank" rel="noopener">https://developers.themoviedb.org/3/getting-started/introduction</a></p>
+
+    <p>You can sign up for a free account to get an API key.</p>
+
+    <!-- Deliverables -->
+    <h2>Deliverables</h2>
+
+    <p>A <strong>ReactJS / NextJS App</strong> broken up as you see fit:</p>
+
+    <ol>
+      <li>Provide the <strong>URL to the deployed app</strong></li>
+      <li>Provide a link to the <strong>source code</strong> saved to a public GitHub repo</li>
+      <li>Provide a <strong>NOTES.md</strong> file in the root of your repo documenting:
+        <ol>
+          <li>How you interpreted the brief and any assumptions you made where it was ambiguous</li>
+          <li>How you chose to architect the project and why</li>
+          <li>How you used AI tools (e.g. Cursor, Copilot) during the build — be specific about what you prompted it to do, where it helped, and where you had to correct or override it</li>
+          <li>Anything you would do differently or add given more time</li>
+        </ol>
+      </li>
+    </ol>
+
+  </div><!-- /content -->
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-offices">
+      <div class="office">
+        <h4>Perth</h4>
+        12/99 St Georges Tce<br>Perth, WA 6000<br>(08) 9325 2784
+      </div>
+      <div class="office">
+        <h4>Brisbane</h4>
+        7/34 Navigator Plce<br>Hendra, QLD 4011<br>(07) 3216 4897
+      </div>
+      <div class="office">
+        <h4>Townsville</h4>
+        2C/125 Dalrymple Rd<br>Garbutt, QLD 4814<br>(07) 4725 0659
+      </div>
+      <div class="office">
+        <h4>Sydney</h4>
+        Level 15/60 Station St<br>Parramatta, NSW 2150<br>1300 424 474
+      </div>
+      <div class="office">
+        <h4>Lorn</h4>
+        4/46-50 Belmore Rd<br>Lorn, NSW 2320<br>1300 424 474
+      </div>
+      <div class="office">
+        <h4>Canberra</h4>
+        5/73 Northbourne Ave<br>Canberra, ACT 2601<br>1300 424 474
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>1300 424 474 &nbsp;•&nbsp; info@gcg.net.au</span>
+      <span><strong>GCG.NET.AU</strong></span>
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+</body>
+</html>

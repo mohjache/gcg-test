@@ -1,37 +1,53 @@
-import Link from "next/link";
+import { Suspense } from "react";
+import { MovieGridSkeleton } from "~/components/movies/movie-card-skeleton";
+import { MovieResults } from "~/components/movies/movie-results";
+import { SearchBar } from "~/components/movies/search-bar";
 
-export default function HomePage() {
+type SearchParams = Record<string, string | string[] | undefined>;
+
+function parseQuery(params: SearchParams): string {
+	return typeof params.q === "string" ? params.q.trim() : "";
+}
+
+function parsePage(params: SearchParams): number {
+	const raw = typeof params.page === "string" ? Number(params.page) : 1;
+	return Number.isFinite(raw) && raw > 0 ? Math.trunc(raw) : 1;
+}
+
+export default async function HomePage({
+	searchParams,
+}: {
+	searchParams: Promise<SearchParams>;
+}) {
+	const params = await searchParams;
+	const query = parseQuery(params);
+	const page = parsePage(params);
+
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-			<div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-				<h1 className="font-extrabold text-5xl text-white tracking-tight sm:text-[5rem]">
-					Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-				</h1>
-				<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-					<Link
-						className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-						href="https://create.t3.gg/en/usage/first-steps"
-						target="_blank"
-					>
-						<h3 className="font-bold text-2xl">First Steps →</h3>
-						<div className="text-lg">
-							Just the basics - Everything you need to know to set up your
-							database and authentication.
-						</div>
-					</Link>
-					<Link
-						className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-						href="https://create.t3.gg/en/introduction"
-						target="_blank"
-					>
-						<h3 className="font-bold text-2xl">Documentation →</h3>
-						<div className="text-lg">
-							Learn more about Create T3 App, the libraries it uses, and how to
-							deploy it.
-						</div>
-					</Link>
+		<main className="min-h-screen bg-neutral-950 text-neutral-100">
+			<header className="relative overflow-hidden border-white/5 border-b bg-gradient-to-b from-neutral-900 to-neutral-950">
+				<div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center">
+					<div className="flex flex-col items-center gap-2">
+						<span className="font-semibold text-amber-400 text-xs uppercase tracking-[0.2em]">
+							Martin&apos;s Movies
+						</span>
+						<h1 className="font-bold text-4xl text-white tracking-tight sm:text-5xl">
+							Browse the catalogue
+						</h1>
+						<p className="max-w-md text-neutral-400 text-sm">
+							Discover movies, search by keyword, and keep track of what
+							you&apos;ve watched.
+						</p>
+					</div>
+					<SearchBar initialQuery={query} />
 				</div>
-			</div>
+			</header>
+
+			<section className="mx-auto max-w-7xl px-6 py-12">
+				<Suspense fallback={<MovieGridSkeleton />} key={`${query}-${page}`}>
+					<MovieResults page={page} query={query} />
+				</Suspense>
+			</section>
 		</main>
 	);
 }
