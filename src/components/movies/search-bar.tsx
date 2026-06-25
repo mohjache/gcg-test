@@ -2,14 +2,15 @@
 
 import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const DEBOUNCE_MS = 400;
 
 /**
  * Central Keyword search (the brief's one customization). Debounced; syncs the
  * Keyword into the URL via `replace` (one history entry per real search, not per
- * keystroke) and resets to page 1 so results stay coherent.
+ * keystroke) and resets to page 1 so results stay coherent. The button flushes
+ * the search immediately.
  */
 export function SearchBar({ initialQuery }: { initialQuery: string }) {
 	const router = useRouter();
@@ -21,17 +22,12 @@ export function SearchBar({ initialQuery }: { initialQuery: string }) {
 	const [value, setValue] = useState(initialQuery);
 	const isFirstRender = useRef(true);
 
-	useEffect(() => {
-		if (isFirstRender.current) {
-			isFirstRender.current = false;
-			return;
-		}
-
-		const handle = setTimeout(() => {
+	const navigate = useCallback(
+		(keyword: string) => {
 			const params = new URLSearchParams(
 				Array.from(searchParamsRef.current.entries()),
 			);
-			const trimmed = value.trim();
+			const trimmed = keyword.trim();
 			if (trimmed) {
 				params.set("q", trimmed);
 			} else {
@@ -41,25 +37,42 @@ export function SearchBar({ initialQuery }: { initialQuery: string }) {
 
 			const qs = params.toString();
 			router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
-		}, DEBOUNCE_MS);
+		},
+		[pathname, router],
+	);
 
+	useEffect(() => {
+		if (isFirstRender.current) {
+			isFirstRender.current = false;
+			return;
+		}
+		const handle = setTimeout(() => navigate(value), DEBOUNCE_MS);
 		return () => clearTimeout(handle);
-	}, [value, pathname, router]);
+	}, [value, navigate]);
 
 	return (
-		<div className="relative w-full max-w-xl">
-			<Search
-				aria-hidden="true"
-				className="pointer-events-none absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-neutral-500"
-			/>
+		<form
+			className="relative w-full max-w-2xl"
+			onSubmit={(event) => {
+				event.preventDefault();
+				navigate(value);
+			}}
+		>
 			<input
 				aria-label="Search movies by keyword"
-				className="w-full rounded-full border border-white/10 bg-neutral-900/80 py-3.5 pr-5 pl-12 text-base text-neutral-100 shadow-lg outline-none backdrop-blur transition placeholder:text-neutral-500 focus:border-amber-400/60 focus:ring-2 focus:ring-amber-400/30"
+				className="w-full rounded-md border-0 bg-white py-4 pr-16 pl-5 text-base text-neutral-800 shadow-xl outline-none transition placeholder:text-neutral-400 focus:ring-4 focus:ring-white/30"
 				onChange={(event) => setValue(event.target.value)}
-				placeholder="Search movies by keyword…"
+				placeholder="Enter movie title…"
 				type="search"
 				value={value}
 			/>
-		</div>
+			<button
+				aria-label="Search"
+				className="absolute top-1/2 right-1.5 inline-flex h-11 w-12 -translate-y-1/2 items-center justify-center rounded bg-violet-600 text-white transition hover:bg-violet-700"
+				type="submit"
+			>
+				<Search aria-hidden="true" className="h-5 w-5" />
+			</button>
+		</form>
 	);
 }

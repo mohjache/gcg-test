@@ -24,17 +24,17 @@ export default async function HomePage({
 	const page = parsePage(params);
 
 	return (
-		<main className="min-h-screen bg-neutral-950 text-neutral-100">
-			<header className="relative overflow-hidden border-white/5 border-b bg-gradient-to-b from-neutral-900 to-neutral-950">
-				<div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-16 text-center">
+		<main className="min-h-screen bg-[#f5f6fa] text-neutral-800">
+			<header className="relative overflow-hidden bg-gradient-to-br from-violet-600 via-purple-600 to-indigo-700">
+				<div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 py-20 text-center">
 					<div className="flex flex-col items-center gap-2">
-						<span className="font-semibold text-amber-400 text-xs uppercase tracking-[0.2em]">
+						<span className="font-semibold text-white/70 text-xs uppercase tracking-[0.25em]">
 							Martin&apos;s Movies
 						</span>
 						<h1 className="font-bold text-4xl text-white tracking-tight sm:text-5xl">
-							Browse the catalogue
+							Start browsing now
 						</h1>
-						<p className="max-w-md text-neutral-400 text-sm">
+						<p className="max-w-md text-sm text-white/80">
 							Discover movies, search by keyword, and keep track of what
 							you&apos;ve watched.
 						</p>
@@ -44,6 +44,9 @@ export default async function HomePage({
 			</header>
 
 			<section className="mx-auto max-w-7xl px-6 py-12">
+				<h2 className="mb-6 font-bold text-2xl text-neutral-900">
+					{query ? `Results for “${query}”` : "Latest movies"}
+				</h2>
 				<Suspense fallback={<MovieGridSkeleton />} key={`${query}-${page}`}>
 					<MovieResults page={page} query={query} />
 				</Suspense>

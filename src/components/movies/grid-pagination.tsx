@@ -49,7 +49,7 @@ export function GridPagination({
 					aria-label="Previous page"
 					className={cn(
 						baseItem,
-						"bg-white/5 text-neutral-200 hover:bg-white/10",
+						"bg-white text-neutral-700 ring-1 ring-black/5 hover:bg-neutral-100",
 					)}
 					href={pageHref(currentPage - 1, query)}
 				>
@@ -58,7 +58,7 @@ export function GridPagination({
 			) : (
 				<span
 					aria-hidden="true"
-					className={cn(baseItem, "cursor-not-allowed text-neutral-600")}
+					className={cn(baseItem, "cursor-not-allowed text-neutral-300")}
 				>
 					<ChevronLeft className="h-4 w-4" />
 				</span>
@@ -73,8 +73,8 @@ export function GridPagination({
 						className={cn(
 							baseItem,
 							isCurrent
-								? "bg-amber-400 text-neutral-950"
-								: "bg-white/5 text-neutral-200 hover:bg-white/10",
+								? "bg-violet-600 text-white"
+								: "bg-white text-neutral-700 ring-1 ring-black/5 hover:bg-neutral-100",
 						)}
 						href={pageHref(page, query)}
 						key={page}
@@ -89,7 +89,7 @@ export function GridPagination({
 					aria-label="Next page"
 					className={cn(
 						baseItem,
-						"bg-white/5 text-neutral-200 hover:bg-white/10",
+						"bg-white text-neutral-700 ring-1 ring-black/5 hover:bg-neutral-100",
 					)}
 					href={pageHref(currentPage + 1, query)}
 				>
@@ -98,7 +98,7 @@ export function GridPagination({
 			) : (
 				<span
 					aria-hidden="true"
-					className={cn(baseItem, "cursor-not-allowed text-neutral-600")}
+					className={cn(baseItem, "cursor-not-allowed text-neutral-300")}
 				>
 					<ChevronRight className="h-4 w-4" />
 				</span>

@@ -1,11 +1,11 @@
 function CardSkeleton() {
 	return (
-		<div className="overflow-hidden rounded-xl bg-neutral-900 ring-1 ring-white/5">
-			<div className="aspect-[2/3] animate-pulse bg-neutral-800" />
+		<div className="overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-black/5">
+			<div className="aspect-[2/3] animate-pulse bg-neutral-200" />
 			<div className="flex flex-col gap-2 p-4">
-				<div className="h-4 w-3/4 animate-pulse rounded bg-neutral-800" />
-				<div className="h-3 w-1/2 animate-pulse rounded bg-neutral-800" />
-				<div className="h-3 w-full animate-pulse rounded bg-neutral-800" />
+				<div className="h-4 w-3/4 animate-pulse rounded bg-neutral-200" />
+				<div className="h-3 w-1/2 animate-pulse rounded bg-neutral-200" />
+				<div className="h-3 w-full animate-pulse rounded bg-neutral-200" />
 			</div>
 		</div>
 	);

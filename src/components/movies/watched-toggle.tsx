@@ -32,8 +32,8 @@ export function WatchedToggle({
 			className={cn(
 				"inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 font-medium text-xs transition",
 				optimisticWatched
-					? "bg-amber-400/15 text-amber-300 ring-1 ring-amber-400/40"
-					: "bg-white/5 text-neutral-300 ring-1 ring-white/10 hover:bg-white/10",
+					? "bg-violet-600 text-white ring-1 ring-violet-600"
+					: "bg-neutral-100 text-neutral-600 ring-1 ring-black/5 hover:bg-neutral-200",
 			)}
 			disabled={isPending}
 			onClick={handleToggle}
